@@ -1,0 +1,58 @@
+# Completeness
+## What has been done
+- a buildsystem (modern cmake)
+- all the parsing
+- stage 2
+
+# Build
+## Libraries
+For this project i used
+- nlohmann (json)
+- boost/date_time
+
+## Cmake
+The cmake file checks libraries according to the
+authorized libs from the mailinglist
+the following targets are supported
+- all # build the recrutement_1 binary
+- test # execute unit tests
+
+# Specifications
+
+## Argparse
+As of right now, the program only expects a path to the
+information.json file as first argument.
+
+## Parser / Loader behaviour
+### Invalid json (type / format)
+The loader will throw runtime_exception if any errors are
+being detected will the appropriate message
+The program will exit with the 1 exit_code
+
+### Invalid JSON (false data)
+In case a reference is invalid (a student.chef points to
+no student) a warning will be displayed on stderr
+The program will exit normally
+
+## Converter
+### Data re-formating
+If some logical errors are found, warning are being
+printed. In some cases projects can be dropped (if no yaka
+or no groups) with according warning
+The program will exit normally
+
+## Scheduler
+### Principle
+To make the most modular scheduler possible, i designed a
+yakascheduler and a groupscheduler
+the yakascheduler must output a schedule where he can
+supervise a defense
+the groupscheduler must output a group that will attend a
+defense
+It is quiet clear that this design allows to add
+informations to make the choice as smart as possible.
+
+# Personal opinion
+I struggled a bit with this subject because i had some
+peronal problems during this week however i did like
+effort we had ti put to be able to get somthing going.
