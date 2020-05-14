@@ -2,11 +2,14 @@ cmake_minimum_required(VERSION 3.8)
 
 project(MyProject
     VERSION 1.0.0
-    DESCRIPTION "First project of 2022 YAKA recruitement phase"
+    DESCRIPTION "Description"
     LANGUAGES CXX
 )
 
-set(CMAKE_BUILD_TYPE Debug)
+if (NOT CMAKE_BUILD_TYPE)
+    message(STATUS "No build type selected, default to Release")
+    set(CMAKE_BUILD_TYPE Release)
+endif()
 
 # create SOURCE_LIB static library: user souce library
 add_subdirectory(src)
@@ -15,5 +18,5 @@ add_subdirectory(src)
 add_subdirectory(test)
 
 # final binary output
-add_executable(recruitement_1 src/main.cc)
-target_link_libraries(recruitement_1 LINK_PUBLIC SOURCE_LIB)
+add_executable(${PROJECT_NAME} src/main.cc)
+target_link_libraries(${PROJECT_NAME} LINK_PUBLIC SOURCE_LIB)

@@ -1,23 +1,28 @@
-# TODO: add package that are needed ONLY for YOUR source code here
-find_package(Boost 1.62 COMPONENTS date_time REQUIRED)
+# Find libraries
+find_package(Boost COMPONENTS program_options REQUIRED)
 
+# Eventually do library handling if release or not
+if (CMAKE_BUILD_TYPE STREQUAL "Release")
+    set(Boost_USE_STATIC_LIBS ON)
+endif()
 
 # Add your source files here
 add_library(SOURCE_LIB STATIC
     # TODO: add your source file here
+    main.cc main.hh
 )
 
-# add flags
+# add important compile features
 target_compile_features(SOURCE_LIB PRIVATE
     cxx_std_17
-    cxx_constexpr
 )
 
-# this is less clean and portable: literally copy/paste given option to shell
 target_compile_options(SOURCE_LIB PRIVATE
     "-Wall"
     "-Wextra"
-    $<$<CONFIG:Release>:-Werror>
+    $<$<CONFIG:Release>:-Werror -Ofast>
+    $<$<CONFIG:Debug>:-O0 -g0>
+    "-pedantic"
 )
 
 # link library to my files (ex: -lm for math utilities)

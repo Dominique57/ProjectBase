@@ -1,25 +1,23 @@
-find_library(Gtest)
+find_package(GTest)
 
-if (G_test)
+if (GTest_FOUND)
     enable_testing()
 
     # gather all *.cc files
     file(GLOB TEST_SRC *.cc)
 
     # if you need to copy from source to build folder do it here
-    configure_file(information.json information.json COPYONLY)
+    # configure_file(SRC DST COPYONLY)
 
-    ADD_EXECUTABLE(TEST_UNITAIRE ${TEST_SRC})
+    # Dont create a unit_test if not tests given
+    ADD_EXECUTABLE(UNIT_TEST ${TEST_SRC})
 
     TARGET_LINK_LIBRARIES(
-        TEST_UNITAIRE
+        UNIT_TEST
         SOURCE_LIB
-        ${CRITERION_LIB}
+        GTest::GTest
     )
 
     add_test(NAME test_unitaire
-             COMMAND TEST_UNITAIRE)
-
-else()
-    message("Missing criterion lib")
+             COMMAND UNIT_TEST)
 endif()
