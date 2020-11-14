@@ -1,7 +1,6 @@
 find_package(GTest)
 
 if (GTest_FOUND)
-    enable_testing()
 
     # gather all *.cc files
     file(GLOB TEST_SRC *.cc)

@@ -15,6 +15,7 @@ endif()
 add_subdirectory(src)
 
 # add test folder
+enable_testing()
 add_subdirectory(test)
 
 # final binary output
