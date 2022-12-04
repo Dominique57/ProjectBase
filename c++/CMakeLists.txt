@@ -25,10 +25,6 @@ option(CODE_CHECKS "Should static analysis (clang-tidy) be enabled" ON)
 if (NOT UNIX)
     set(CODE_CHECKS OFF)
 endif()
-if (CODE_CHECKS)
-    SET(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-endif()
-
 
 # Create re-usable config libraries
 ## Default compilation options
@@ -67,17 +63,17 @@ endif()
 add_subdirectory(src)
 
 if (CODE_CHECKS)
-    find_program(CLANG_TIDY
-        NAMES
-            clang-tidy
-    )
-    find_program(RUN_CLANG_TIDY
-        NAMES
-            run-clang-tidy
-    )
-    add_custom_target(static-check
-        COMMAND ${RUN_CLANG_TIDY} -quiet -p ${CMAKE_BINARY_DIR}
-    )
+    SET(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+    find_program(CLANG_TIDY NAMES clang-tidy)
+    find_program(RUN_CLANG_TIDY NAMES run-clang-tidy)
+    if (CLANG_TIDY AND RUN_CLANG_TIDY)
+        message(STATUS "Enabling static checks with run-clang-tidy !")
+        add_custom_target(static-check
+            COMMAND ${RUN_CLANG_TIDY} -quiet -p ${CMAKE_BINARY_DIR}
+        )
+    else()
+        message(WARNING "Missing (run-)clang-tidy, disabling static checks")
+    endif()
 endif()
 
 # add test folder
