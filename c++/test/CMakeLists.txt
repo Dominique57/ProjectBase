@@ -21,6 +21,7 @@ if (GTest_FOUND)
              COMMAND UNIT_TEST)
 
     if (CODE_COVERAGE)
+        message(STATUS "Enabling code coverage using lcov and genhtml !")
         setup_target_for_coverage_lcov(
             NAME coverage
             EXCLUDE
