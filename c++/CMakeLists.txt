@@ -11,7 +11,17 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
+# Custom cmake file folder location
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/res/cmake/")
+
+option(CODE_COVERAGE "Should code coverage be enabled (debug only)" ON)
+if (NOT UNIX OR NOT CMAKE_BUILD_TYPE STREQUAL Debug)
+    set(CODE_COVERAGE OFF)
+endif()
+
+
 # Create re-usable config libraries
+
 ## Default compilation options
 add_library(default_options INTERFACE)
 target_include_directories(default_options
@@ -28,16 +38,20 @@ target_compile_options(default_options
         $<$<CONFIG:Release>:-Werror -Ofast>
         $<$<CONFIG:Debug>:-O0 -ggdb>
 )
+
 ## Code coverage options
 add_library(coverage_options INTERFACE)
-target_compile_options(coverage_options
-    INTERFACE
-        "--coverage"
-)
-target_link_options(coverage_options
-    INTERFACE
-        "--coverage"
-)
+if (CODE_COVERAGE)
+    include(CodeCoverage)
+    target_compile_options(coverage_options
+        INTERFACE
+            "--coverage"
+    )
+    target_link_options(coverage_options
+        INTERFACE
+            "--coverage"
+    )
+endif()
 
 
 # create SOURCE_LIB static library: user souce library

@@ -11,5 +11,6 @@ add_library(SOURCE_LIB STATIC
 target_link_libraries(SOURCE_LIB
     PRIVATE
         default_options
+        coverage_options
 )
 
