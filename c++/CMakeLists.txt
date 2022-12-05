@@ -80,18 +80,3 @@ endif()
 enable_testing()
 add_subdirectory(test)
 
-# final binary output
-find_package(Boost COMPONENTS program_options REQUIRED)
-if (CMAKE_BUILD_TYPE STREQUAL "Release")
-    set(Boost_USE_STATIC_LIBS ON)
-endif()
-
-add_executable(${PROJECT_NAME} src/main.cc)
-target_include_directories(${PROJECT_NAME} PUBLIC
-    ${Boost_INCLUDE_DIR}
-)
-target_link_libraries(${PROJECT_NAME} LINK_PUBLIC
-    ${Boost_LIBRARIES}
-    default_options
-    SOURCE_LIB
-)
