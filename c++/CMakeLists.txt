@@ -58,10 +58,7 @@ if (CODE_COVERAGE)
     )
 endif()
 
-
-# create SOURCE_LIB static library: user souce library
-add_subdirectory(src)
-
+# Add static analysis ability
 if (CODE_CHECKS)
     SET(CMAKE_EXPORT_COMPILE_COMMANDS ON)
     find_program(CLANG_TIDY NAMES clang-tidy)
@@ -76,7 +73,13 @@ if (CODE_CHECKS)
     endif()
 endif()
 
-# add test folder
+
+# Create SOURCE_LIB static library
+add_subdirectory(src)
+
+# Add test folder
 enable_testing()
 add_subdirectory(test)
 
+
+# Add check target to check everything
